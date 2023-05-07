@@ -1,0 +1,166 @@
+1)
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123")
+print(mydb.connection_id)
+cur=mydb.cursor()
+cur.execute('create database Inventory_Management')
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t1='create table manufacture(manufacturing_id integer(12),Product_name varchar(30),required_items integer(7),defective_items integer(9))'
+cur.execute(t1)
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t3='create table purchases(purchase_id integer(7),purchase_amount float,purchase_date date,storename varchar(60),purchase_type varchar(60),product varchar(30))'
+cur.execute(t3);
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t4='create table sales1(sales_id integer(7),item_name varchar(30),sale_date date,store_name varchar(40),profit_margin float)'
+cur.execute(t4);
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t2='create table goods(goods_id integer(12),Product_name varchar(30),manufacture_date date,price float,quantity integer(7))'
+cur.execute(t2)
+
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t1='insert into manufacture(manufacturing_id,Product_name,required_items,defective_items) values (%s,%s,%s,%s)'
+a=[(101,'shirt',2,1),(102,'wooden_chairs',8,3),(103,'wooden_tables',90,6),(104,'red_toys',100,20)]
+cur.executemany(t1,a)
+mydb.commit()
+print('Data inserted successfully')
+
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t2='insert into goods(goods_id ,Product_name,manufacture_date,price,quantity) values(%s,%s,%s,%s,%s)'
+b=[(201,'shirt','2021-04-23',3500,8),(202,'wooden_chair','2023-05-01',32500,2),(201,'wooden_table','2020-11-06',52000,1)]
+cur.executemany(t2,b)
+mydb.commit()
+print('Data inserted successfully')
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t3='insert into purchases(purchase_id,purchase_amount,purchase_date,storename,purchase_type,product) values(%s,%s,%s,%s,%s,%s)'
+c=[(101,3500,'2023-04-01','ORay','online','shirt'),(102,39500,'2023-11-23','MyKids','offline','red_toys'),(103,56000,'2023-05-01','ABC','online','wooden_chair'),(105,3500,'2002-01-17','MyCare','online','wooden_table')]
+cur.executemany(t3,c)
+mydb.commit()
+print('Data inserted successfully')
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+t4='insert into  sales1(sales_id,item_name,sale_date,store_name,profit_margin)values(%s,%s,%s,%s,%s)'
+d=[(201,'shirt','2001-04-23','ORay',80.7),(202,'red_toys','2023-11-23','MyKids',65.4),(203,'wooden_chair','2023-05-01','ABC',40.3),(205,'wooden_table','2002-01-17','MyCare',38.8)]
+cur.executemany(t4,d)
+mydb.commit()
+print('Data inserted successfully')
+
+
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password="Anjali@123",database='Inventory_Management')
+cur=mydb.cursor()
+d='delete from purchases where product='shirt' and purchase_date='2023-04-01' and storename='ORay''
+cur.execute(d)
+mydb.commit()
+
+
+-------------
+import mysql.connector
+mydb=mysql.connector.connect(host='localhost',user='root',password='Myselfs@1')
+print(mydb.connection_id)
+cur=mydb.cursor()
+cur.execute('create database Inventory_Management')
+cur.execute('use Inventory_Management')
+
+cur.execute('CREATE TABLE manufacture (manufacture_id INTEGER PRIMARY KEY, item_name VARCHAR(20),company varchar(20),item_color VARCHAR(20),quantity INTEGER(4),defective_items INTEGER(4))')
+
+cur.execute('CREATE TABLE goods (goods_id INTEGER(4) PRIMARY KEY, manufacture_id INTEGER, manufacture_date DATE,FOREIGN KEY(manufacture_id) REFERENCES manufacture(manufacture_id))')
+
+cur.execute('CREATE TABLE purchase (purchase_id INTEGER(4) PRIMARY KEY,  store_name varchar(20),purchase_amount FLOAT, purchase_date DATE)')
+
+
+cur.execute('CREATE TABLE sale (sale_id INTEGER(4) PRIMARY KEY,store_name VARCHAR(30),sale_date DATE,goods_id INTEGER(4), profit_margin FLOAT,FOREIGN KEY(goods_id) REFERENCES goods(goods_id))')
+
+e1='insert into manufacture(manufacture_id ,item_name ,company,item_color ,quantity ,defective_items) values (%s,%s,%s,%s,%s,%s)'
+entries1 = (1, 'wooden chair','GARUD ENTERPRISES' ,'brown', 100, 0), (3, 'wooden table','SS EXPORT' 'brown', 50, 1),(2, 'red toy','F3 TOYS','red', 200, 0),(4,'shirt','ADIDAS','black',300,1)
+cur.executemany(e1,entries1)
+mydb.commit()
+e2='insert into goods(goods_id , manufacture_id , manufacture_date)values (%s,%s,%s)'
+entries2 = (1, 1, '2023-04-20'),(2, 1, '2023-04-22'),(3, 2, '2023-04-25'),(4, 3, '2023-04-26')
+cur.executemany(e2,entries2)
+mydb.commit()
+
+e3='insert into purchase(purchase_id , store_name,purchase_amount,purchase_date)values(%s,%s,%s,%s)'
+entries3 = (1, 'ORay', 500, '2023-04-21'), (2, 'MyKids', 1000, '2023-04-22'),(3, 'OnlineMart', 750, '2023-04-23')
+cur.executemany(e3,entries3)
+mydb.commit()
+
+e4='INSERT INTO sale(sale_id ,store_name ,sale_date,goods_id , profit_margin )values(%s,%s,%s,%s,%s)'
+entries4 = (1, 'MyCare', '2023-04-01', 1, 100),(2, 'ORay', '2023-04-03', 2, 50),(3, 'MyKids', '2023-04-05', 3, 75),(4, 'OnlineMart', '2023-04-06', 4, 80)
+cur.executemany(e4,entries4)
+mydb.commit()
+
+s='DELETE FROM purchase WHERE item_name = "shirt" AND purchase_date = "2023-04-01" AND store_name = "ORay"'
+cur.execute(s)
+mydb.commit()
+
+
+t='UPDATE manufacture SET quantity = 500 WHERE item_color = "red" AND manufacture_id IN (SELECT manufacture_id FROM goods WHERE goods_id IN (SELECT goods_id FROM sale WHERE store_name = "MyKids")'
+cur.execute(t)
+mydb.commit()
+
+
+u='SELECT * FROM  goods JOIN manufacture ON goods.manufacture_id = manufacture.manufacture_id WHERE item_name = "wooden chair" AND manufacture_date< "2023-05-01"'
+cur.execute(u)
+rows=cur.fetchall()
+for i in rows:
+    print(i)
+mydb.commit()
+
+v='SELECT sale.profit_margin FROM sale JOIN goods ON sale.goods_id = goods.goods_id JOIN manufacture ON goods.manufacture_id = manufacture.manufacture_id JOIN purchase ON goods.purchase_id = purchase.purchase_id WHERE item_name = "wooden table" AND store_name = "MyCare",company = "SS Export"'
+cur.execute(v)
+row = cur.fetchone()
+print(row[0])
+mydb.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
